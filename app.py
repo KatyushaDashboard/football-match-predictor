@@ -100,7 +100,13 @@ exp_away_goals = model_p_away.predict(features_poisson_df)[0]
 prob_matrix, prob_over25, prob_btts = calculate_poisson_probs(exp_home_goals, exp_away_goals)
 
 probs_1x2 = model_xgb.predict_proba(features_xgb_df)[0]
-prob_h, prob_d, prob_a = probs_1x2[0], probs_1x2[1], probs_1x2[2]
+
+# Mapping otomatis berdasarkan nama class model
+class_mapping = dict(zip(model_xgb.classes_, probs_1x2))
+
+prob_h = class_mapping['H']
+prob_d = class_mapping['D']
+prob_a = class_mapping['A']
 
 # --- MAIN DASHBOARD VIEW ---
 st.subheader(f"📌 {home_team} vs {away_team}")
