@@ -101,12 +101,9 @@ prob_matrix, prob_over25, prob_btts = calculate_poisson_probs(exp_home_goals, ex
 
 probs_1x2 = model_xgb.predict_proba(features_xgb_df)[0]
 
-# Mapping otomatis berdasarkan nama class model
-class_mapping = dict(zip(model_xgb.classes_, probs_1x2))
-
-prob_h = class_mapping['H']
-prob_d = class_mapping['D']
-prob_a = class_mapping['A']
+prob_a = probs_1x2[0]  # Indeks 0 = Away Win
+prob_d = probs_1x2[1]  # Indeks 1 = Draw
+prob_h = probs_1x2[2]  # Indeks 2 = Home Win
 
 # --- MAIN DASHBOARD VIEW ---
 st.subheader(f"📌 {home_team} vs {away_team}")
